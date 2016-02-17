@@ -1,36 +1,36 @@
-#include "m_intcombo.h"
+#include "m_int_combo.h"
 
 int
-m_intcombo_init(struct m_intcombo* ic)
+m_int_combo_init(struct m_int_combo* ic)
 {
 	if (ic == NULL)
-		return M_INTCOMBO_E_NULL;
+		return M_INT_COMBO_E_NULL;
 
 	m_array_init(&ic->array, 3, sizeof(intmax_t));
 	ic->data = NULL;
 	ic->n_values = 0;
 
-	return M_INTCOMBO_OK;
+	return M_INT_COMBO_OK;
 }
 
 int
-m_intcombo_add(struct m_intcombo* ic, intmax_t lo, intmax_t hi)
+m_int_combo_add(struct m_int_combo* ic, intmax_t lo, intmax_t hi)
 {
 	if (ic == NULL)
-		return M_INTCOMBO_E_NULL;
+		return M_INT_COMBO_E_NULL;
 
 	if (lo > hi)
-		return M_INTCOMBO_E_ORDER;
+		return M_INT_COMBO_E_ORDER;
 
 	m_array_append(&ic->array, 1, &lo);
 	m_array_append(&ic->array, 1, &hi);
 	ic->n_values++;
 
-	return M_INTCOMBO_OK;
+	return M_INT_COMBO_OK;
 }
 
 static void
-reset_counters(struct m_intcombo* ic)
+reset_counters(struct m_int_combo* ic)
 {
 	unsigned int i;
 	void* lo;
@@ -44,10 +44,10 @@ reset_counters(struct m_intcombo* ic)
 }
 
 int
-m_intcombo_finalize(struct m_intcombo* ic, intmax_t** out)
+m_int_combo_finalize(struct m_int_combo* ic, intmax_t** out)
 {
 	if (ic == NULL || out == NULL)
-		return M_INTCOMBO_E_NULL;
+		return M_INT_COMBO_E_NULL;
 
 	m_array_trim(&ic->array);
 
@@ -58,22 +58,22 @@ m_intcombo_finalize(struct m_intcombo* ic, intmax_t** out)
 	reset_counters(ic);
 
 	*out = ic->data;
-	return M_INTCOMBO_OK;
+	return M_INT_COMBO_OK;
 }
 
 int
-m_intcombo_next(struct m_intcombo* ic)
+m_int_combo_next(struct m_int_combo* ic)
 {
 	unsigned int idx;
 	void* lo;
 	void* hi;
 
 	if (ic == NULL)
-		return M_INTCOMBO_E_NULL;
+		return M_INT_COMBO_E_NULL;
 
 	if (ic->first == 1) {
 		ic->first = 0;
-		return M_INTCOMBO_OK;
+		return M_INT_COMBO_OK;
 	}
 
 	idx = 0;
@@ -86,36 +86,36 @@ m_intcombo_next(struct m_intcombo* ic)
 			idx++;
 		}
 		else
-			return M_INTCOMBO_OK;
+			return M_INT_COMBO_OK;
 	}
 
-	return M_INTCOMBO_END;
+	return M_INT_COMBO_END;
 }
 
 int
-m_intcombo_reset(struct m_intcombo* ic)
+m_int_combo_reset(struct m_int_combo* ic)
 {
 	if (ic == NULL)
-		return M_INTCOMBO_E_NULL;
+		return M_INT_COMBO_E_NULL;
 
 	reset_counters(ic);
 
-	return M_INTCOMBO_OK;
+	return M_INT_COMBO_OK;
 }
 
 int
-m_intcombo_free(struct m_intcombo* ic)
+m_int_combo_free(struct m_int_combo* ic)
 {
 	if (ic == NULL)
-		return M_INTCOMBO_E_NULL;
+		return M_INT_COMBO_E_NULL;
 
 	free(ic->data);
 
-	return M_INTCOMBO_OK;
+	return M_INT_COMBO_OK;
 }
 
 int
-m_intcombo_error_string(int code, char** out_error_string)
+m_int_combo_error_string(int code, char** out_error_string)
 {
 	char* strings[] = {
 		"OK",
@@ -126,12 +126,12 @@ m_intcombo_error_string(int code, char** out_error_string)
 	};
 
 	if (out_error_string == NULL)
-		return M_INTCOMBO_E_NULL;
+		return M_INT_COMBO_E_NULL;
 
-	if (code < 0 || code > M_INTCOMBO_E_MAX)
-		return M_INTCOMBO_E_UNKNOWN_CODE;
+	if (code < 0 || code > M_INT_COMBO_E_MAX)
+		return M_INT_COMBO_E_UNKNOWN_CODE;
 
 	*out_error_string = strings[code];
-	return M_INTCOMBO_OK;
+	return M_INT_COMBO_OK;
 }
 
