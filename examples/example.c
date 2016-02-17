@@ -31,7 +31,7 @@ main(int argc, char** argv)
 	m_int_combo_free(&ic);
 
 	if (ret != M_INT_COMBO_END) {
-		m_intcombo_error_string(ret, &err_str);
+		m_int_combo_error_string(ret, &err_str);
 		fprintf(stderr, "ERROR: %s\n", err_str);
 		return EXIT_FAILURE;
 	}
