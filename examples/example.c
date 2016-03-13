@@ -7,7 +7,7 @@ main(int argc, char** argv)
 {
 	int i;
 	int ret;
-	struct m_int_combo ic;
+	m_int_combo ic;
 	char* err_str;
 	intmax_t* next;
 	intmax_t lo;
